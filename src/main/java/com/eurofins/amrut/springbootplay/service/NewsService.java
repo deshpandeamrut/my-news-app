@@ -34,7 +34,7 @@ public class NewsService {
 			return articleList;
 	
 	}
-
+	
 	@RequestMapping("/news/source/{sourceName}")
 	@ResponseBody
 	public List<Article> getNewsFromSource(@PathVariable String sourceName) {
@@ -44,8 +44,15 @@ public class NewsService {
 	
 	@RequestMapping(value = "/news/search/{searchText}")
 	@ResponseBody
-	public List<Article> getNewsForSearchText(@PathVariable String searchText) {
+	public List<Article> getLatestNewsForSearchText(@PathVariable String searchText) {
 		final String uri = "https://newsapi.org/v2/top-headlines?language=en&apiKey="+newsApiKey+"&q="+searchText;
+		return doRestCall(uri);
+	}
+	
+	@RequestMapping(value = "/news/all/search/{searchText}")
+	@ResponseBody
+	public List<Article> getAllNewsForSearchText(@PathVariable String searchText) {
+		final String uri = "https://newsapi.org/v2/everything?language=en&apiKey="+newsApiKey+"&q="+searchText;
 		return doRestCall(uri);
 	}
 	
@@ -56,7 +63,10 @@ public class NewsService {
 		if(cache.get(category)==null) {
 			List<Article> articles = doRestCall(uri);
 			if(articles.isEmpty()) {
-				articles = getNewsForSearchText(category);
+				articles = getLatestNewsForSearchText(category);
+			}
+			if(articles.isEmpty()) {
+				articles = getAllNewsForSearchText(category);
 			}
 			cache.put(category, articles);
 		}
