@@ -24,6 +24,15 @@ public class Article {
 	@JsonProperty("publishedAt")
 	private String publishedAt;
 	
+	@JsonProperty("urlToImage")
+	private String urlToImage;
+	
+	public String getUrlToImage() {
+		return urlToImage;
+	}
+	public void setUrlToImage(String urlToImage) {
+		this.urlToImage = urlToImage;
+	}
 	public String getSource() {
 		return source;
 	}
