@@ -1,10 +1,17 @@
 package com.eurofins.amrut.springbootplay.entity;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Article {
-	@JsonProperty("source.name")
-	private String source;
+	private String sourceName;
+	
+	@JsonProperty("source")
+	private void unpackNameFromNestedObject(Map<String, String> source) {
+	    sourceName = source.get("name");
+	}
+	
 	
 	@JsonProperty("title")
 	private String title;
@@ -34,10 +41,10 @@ public class Article {
 		this.urlToImage = urlToImage;
 	}
 	public String getSource() {
-		return source;
+		return sourceName;
 	}
 	public void setSource(String source) {
-		this.source = source;
+		this.sourceName = source;
 	}
 	public String getTitle() {
 		return title;
@@ -74,6 +81,12 @@ public class Article {
 	}
 	public void setPublishedAt(String publishedAt) {
 		this.publishedAt = publishedAt;
+	}
+	@Override
+	public String toString() {
+		return "Article [source=" + sourceName + ", title=" + title + ", author=" + author + ", description=" + description
+				+ ", url=" + url + ", content=" + content + ", publishedAt=" + publishedAt + ", urlToImage="
+				+ urlToImage + "]";
 	}
 	
 	
